@@ -49,7 +49,7 @@ export default function MainCard() {
       });
       
     } catch (error) {
-      setWeatherData(false)
+      setWeatherData(false);
     }    
   }
 
@@ -79,7 +79,6 @@ export default function MainCard() {
           </svg>
           <form onSubmit={handleSubmit}>
             <input ref={inputRef} type="text" required placeholder="Enter a Location" />
-            {/* <button type="submit">submit</button> */}
           </form>
         </label>
       </div>
@@ -91,9 +90,9 @@ export default function MainCard() {
           </svg>
           <form onSubmit={handleSubmit}>
             <input ref={inputRef} type="text" required placeholder="Enter a Location" />
-            {/* <button type="submit">submit</button> */}
           </form>
         </label>
+        <h3 className="text-red-800 text-right">enter a valid location</h3>
       </div>
     </>}
       
