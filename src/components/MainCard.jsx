@@ -67,7 +67,7 @@ export default function MainCard() {
     <>
     {weatherData ? 
     <>
-      <div className="bg-cyan-600 place-self-center flex flex-col rounded-md text-center px-5">
+      <div className="bg-cyan-600 place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs">
         <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
         <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
         <h3 className="pt-3 text-xl">{weatherData.conditions}</h3>
