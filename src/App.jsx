@@ -1,7 +1,9 @@
-import React from 'react'
+import MainCard from "./components/MainCard"
 
 export default function App() {
   return (
-    <h1>app</h1>
+    <div className='grid place-items-center h-screen bg-cyan-500'>
+      <MainCard />
+    </div>
   )
 }
