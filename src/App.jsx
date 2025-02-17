@@ -1,5 +1,4 @@
 import MainCard from "./components/MainCard"
-import Search from "./components/Search"
 
 export default function App() {
   return (
