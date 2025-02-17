@@ -1,8 +1,37 @@
 import { useState, useEffect } from "react";
+import sunny from '../assets/clear_day.png'
+import moon from '../assets/clear_night.png'
+import cloudy from '../assets/cloudy.png'
+import wind from '../assets/wind.png'
+import partlyCloudyDay from '../assets/partly_cloudy_day.png'
+import partlyCloudyNight from '../assets/partly_cloudy_night.png'
+import rain from '../assets/rain.png'
+import snow from '../assets/snow.png'
+import storm from '../assets/storm.png'
+
 
 export default function MainCard() {
 
   const [weatherData, setWeatherData] = useState(false);
+
+  const icons = {
+    "01d": sunny,
+    "01n": moon,
+    "02d": cloudy,
+    "02n": cloudy,
+    "03d": partlyCloudyDay,
+    "03n": partlyCloudyNight,
+    "04d": partlyCloudyDay,
+    "04n": partlyCloudyNight,
+    "09d": rain,
+    "09n": rain,
+    "10d": rain,
+    "10n": rain,
+    "11d": storm,
+    "11n": storm,
+    "13d": snow,
+    "13n": snow
+  }
 
   const getWeatherByCity = async (city) => {
     try {
@@ -10,10 +39,12 @@ export default function MainCard() {
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
+      const icon = icons[data.weather[0].icon] || sunny;
       setWeatherData({
         city: data.name,
         temp: Math.floor(data.main.temp),
-        icon: data
+        conditions: data.weather[0].description,
+        icon: icon
       });
       
     } catch (error) {
@@ -27,10 +58,10 @@ export default function MainCard() {
 
   return (
     <div className="bg-cyan-600 place-self-center flex flex-col rounded-md text-center px-5">
-      <h1 className="pt-5 text-5xl">Chicago</h1>
-      <img className=" pt-3 place-self-center" src="src/assets/react.svg" alt="logo" style={{width: '50px'}} />
-      <h3 className="pt-3 text-xl">sunny/clear</h3>
-      <h3 className="py-3 pb-5 text-xl">65F</h3>
+      <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
+      <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
+      <h3 className="pt-3 text-xl">{weatherData.conditions}</h3>
+      <h3 className="py-3 pb-5 text-xl">{`${weatherData.temp}F`}</h3>
     </div>
   )
 }
