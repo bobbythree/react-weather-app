@@ -3,10 +3,13 @@ import { icons } from '../data/icons.js'
 
 
 export default function MainCard() {
-
+  //state variables
   const [weatherData, setWeatherData] = useState(false);
+  const [isDaytime, setIsDaytime] = useState();
   const inputRef = useRef();
 
+
+  //api call
   const getWeatherByCity = async (city) => {
     try {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${import.meta.env.VITE_API_KEY}`
@@ -14,6 +17,12 @@ export default function MainCard() {
       const data = await response.json();
       console.log(data);
       const icon = icons[data.weather[0].icon] || sunny;
+
+      //get the time of day
+      const weatherCode = data.weather[0].icon;
+      const lastChar = weatherCode[weatherCode.length - 1];
+      setIsDaytime(lastChar === 'd' ? true : false);
+
       setWeatherData({
         city: data.name,
         temp: Math.floor(data.main.temp),
@@ -25,22 +34,22 @@ export default function MainCard() {
       setWeatherData(false);
     }    
   }
+  useEffect(() => {
+    getWeatherByCity('Chicago')
+  }, []);
 
+  //form subit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
     getWeatherByCity(inputRef.current.value)
     inputRef.current.value = '';
-  }
-
-  useEffect(() => {
-    getWeatherByCity('Chicago')
-  }, []);
+  }  
 
   return (
     <>
     {weatherData ? 
     <>
-      <div className="bg-cyan-600 place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs">
+      <div className={`${isDaytime ? 'bg-cyan-600' : 'bg-slate-800'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
         <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
         <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
         <h3 className="pt-3 text-xl">{weatherData.conditions}</h3>
