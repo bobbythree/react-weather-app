@@ -48,15 +48,15 @@ export default function MainCard() {
   return (
     <>
     {weatherData ? 
-    <div className='flex flex-col gap-1 justify-center h-screen bg-cyan-900'>
-      <div className={`${isDaytime ? 'bg-cyan-600' : 'bg-slate-800'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
+    <div className={`${isDaytime ? 'bg-cyan-900' : 'bg-black'} flex flex-col justify-center gap-1 h-screen`}>
+      <div className={`${isDaytime ? 'bg-cyan-600' : 'bg-slate-900'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
         <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
         <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
         <h3 className="pt-3 text-xl">{weatherData.conditions}</h3>
         <h3 className="py-3 pb-5 text-xl">{`${weatherData.temp}F`}</h3>
       </div>
       <div className="place-self-center">
-        <label className="input bg-cyan-600">
+        <label className={`${isDaytime ? 'bg-cyan-600' : 'bg-slate-900'} input`}>
           <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g>
           </svg>
           <form onSubmit={handleSubmit}>
