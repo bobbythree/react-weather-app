@@ -65,6 +65,19 @@ export default function MainCard() {
         return 'bg-[url(./assets/overcast_day_bg.jpg)] bg-cover';
       case '04n': //overcast night
         return 'bg-[url(./assets/overcast_night_bg.jpg)] bg-cover';
+      case '09d': //rain day
+      case '10d':
+        return 'bg-[url(./assets/rain_day_bg.jpg)] bg-cover';
+      case '09n': //rain night
+      case '10n':
+        return 'bg-[url(./assets/rain_night_bg.jpg)] bg-cover';
+      case '09n': // thunderstorm
+      case '10n':
+        return 'bg-[url(./assets/storm_bg.jpg)] bg-cover';
+      case '13d': // snow day
+        return 'bg-[url(./assets/snow_day_bg.jpg)] bg-cover';
+      case '13n': // snow day
+        return 'bg-[url(./assets/snow_night_bg.jpg)] bg-cover';
     }  
     
     // "01d": sunny,
