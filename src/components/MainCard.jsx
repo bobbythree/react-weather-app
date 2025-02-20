@@ -4,7 +4,7 @@ import { icons } from '../data/icons.js'
 
 export default function MainCard() {
   //state variables
-  const [weatherData, setWeatherData] = useState(false);
+  const [weatherData, setWeatherData] = useState(null);
   const [isDaytime, setIsDaytime] = useState();
   const inputRef = useRef();
 
@@ -27,7 +27,8 @@ export default function MainCard() {
         city: data.name,
         temp: Math.floor(data.main.temp),
         conditions: data.weather[0].description,
-        icon: icon
+        icon: icon,
+        weatherCode: weatherCode
       });
       
     } catch (error) {
@@ -38,19 +39,46 @@ export default function MainCard() {
     getWeatherByCity('Chicago')
   }, []);
 
-  //form subit func - call api and pass user input as location - clear form
+  //form submit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
     getWeatherByCity(inputRef.current.value)
     inputRef.current.value = '';
-  }  
+  }
+
+  //background image
+  const getBackgroundImg = (weatherCode) => {
+    if (!weatherCode) return ''; //if no code available
+
+    switch (weatherCode) {
+      case '01d': //clear sky
+        return 'bg-[url(./assets/sunny-bg.jpg)] bg-cover';
+      case '01n': //clear sky
+        return 'bg-[url(./assets/stars-bg.jpg)] bg-cover';
+    }  
+    
+    // "01d": sunny,
+    //   "01n": moon,
+    //   "02d": partlyCloudyDay,
+    //   "02n": partlyCloudyNight,
+    //   "03d": partlyCloudyDay,
+    //   "03n": partlyCloudyNight,
+    //   "04d": cloudy,
+    //   "04n": cloudy,
+    //   "09d": rain,
+    //   "09n": rain,
+    //   "10d": rain,
+    //   "10n": rain,
+    //   "11d": storm,
+    //   "11n": storm,
+    //   "13d": snow,
+    //   "13n": snow
+  }
 
   return (
     <>
     {weatherData ? 
-    <div className={`${isDaytime ?
-    'bg-[url(./assets/sunny-bg.jpg)] bg-cover' :
-    'bg-[url(./assets/stars-bg.jpg)] bg-cover'} flex flex-col justify-center gap-1 h-screen`}>
+    <div className={`${getBackgroundImg(weatherData.weatherCode)} flex flex-col justify-center gap-1 h-screen`}>
       <div className={`${isDaytime ? 'bg-transparent' : 'bg-black'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
         <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
         <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
