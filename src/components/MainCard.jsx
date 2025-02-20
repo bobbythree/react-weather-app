@@ -4,7 +4,7 @@ import { icons } from '../data/icons.js'
 
 export default function MainCard() {
   //state variables
-  const [weatherData, setWeatherData] = useState(false);
+  const [weatherData, setWeatherData] = useState(null);
   const [isDaytime, setIsDaytime] = useState();
   const inputRef = useRef();
 
@@ -27,7 +27,8 @@ export default function MainCard() {
         city: data.name,
         temp: Math.floor(data.main.temp),
         conditions: data.weather[0].description,
-        icon: icon
+        icon: icon,
+        weatherCode: weatherCode
       });
       
     } catch (error) {
@@ -38,25 +39,77 @@ export default function MainCard() {
     getWeatherByCity('Chicago')
   }, []);
 
-  //form subit func - call api and pass user input as location - clear form
+  //form submit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
     getWeatherByCity(inputRef.current.value)
     inputRef.current.value = '';
-  }  
+  }
+
+  //background image
+  const getBackgroundImg = (weatherCode) => {
+    if (!weatherCode) return ''; //if no code available
+
+    switch (weatherCode) {
+      case '01d': //clear day
+        return 'bg-[url(./assets/sunny_bg.jpg)] bg-cover';
+      case '01n': //clear night
+        return 'bg-[url(./assets/stars_bg.jpg)] bg-cover';
+      case '02d': //partly cloudy day
+      case '03d': 
+        return 'bg-[url(./assets/partly_day_bg.jpg)] bg-cover';
+      case '02n': //partly cloudy night
+      case '03n': 
+        return 'bg-[url(./assets/partly_night_bg.jpg)] bg-cover';
+      case '04d': //overcast day
+        return 'bg-[url(./assets/overcast_day_bg.jpg)] bg-cover';
+      case '04n': //overcast night
+        return 'bg-[url(./assets/overcast_night_bg.jpg)] bg-cover';
+      case '09d': //rain day
+      case '10d':
+        return 'bg-[url(./assets/rain_day_bg.jpg)] bg-cover';
+      case '09n': //rain night
+      case '10n':
+        return 'bg-[url(./assets/rain_night_bg.jpg)] bg-cover';
+      case '09n': // thunderstorm
+      case '10n':
+        return 'bg-[url(./assets/storm_bg.jpg)] bg-cover';
+      case '13d': // snow day
+        return 'bg-[url(./assets/snow_day_bg.jpg)] bg-cover';
+      case '13n': // snow day
+        return 'bg-[url(./assets/snow_night_bg.jpg)] bg-cover';
+    }  
+    
+    // "01d": sunny,
+    //   "01n": moon,
+    //   "02d": partlyCloudyDay,
+    //   "02n": partlyCloudyNight,
+    //   "03d": partlyCloudyDay,
+    //   "03n": partlyCloudyNight,
+    //   "04d": cloudy,
+    //   "04n": cloudy,
+    //   "09d": rain,
+    //   "09n": rain,
+    //   "10d": rain,
+    //   "10n": rain,
+    //   "11d": storm,
+    //   "11n": storm,
+    //   "13d": snow,
+    //   "13n": snow
+  }
 
   return (
     <>
     {weatherData ? 
-    <div className={`${isDaytime ? 'bg-cyan-900' : 'bg-black'} flex flex-col justify-center gap-1 h-screen`}>
-      <div className={`${isDaytime ? 'bg-cyan-600' : 'bg-slate-900'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
+    <div className={`${getBackgroundImg(weatherData.weatherCode)} flex flex-col justify-center gap-1 h-screen`}>
+      <div className={`${isDaytime ? 'bg-sky-600' : 'bg-black'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
         <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
         <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
         <h3 className="pt-3 text-xl">{weatherData.conditions}</h3>
         <h3 className="py-3 pb-5 text-xl">{`${weatherData.temp}F`}</h3>
       </div>
       <div className="place-self-center">
-        <label className={`${isDaytime ? 'bg-cyan-600' : 'bg-slate-900'} input`}>
+        <label className={`${isDaytime ? 'bg-sky-600' : 'bg-black'} input`}>
           <svg className="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g strokeLinejoin="round" strokeLinecap="round" strokeWidth="2.5" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></g>
           </svg>
           <form onSubmit={handleSubmit}>
