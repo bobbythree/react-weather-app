@@ -71,31 +71,14 @@ export default function MainCard() {
       case '09n': //rain night
       case '10n':
         return 'bg-[url(./assets/rain_night_bg.jpg)] bg-cover';
-      case '09n': // thunderstorm
-      case '10n':
+      case '11d': // thunderstorm
+      case '11n':
         return 'bg-[url(./assets/storm_bg.jpg)] bg-cover';
       case '13d': // snow day
         return 'bg-[url(./assets/snow_day_bg.jpg)] bg-cover';
       case '13n': // snow day
         return 'bg-[url(./assets/snow_night_bg.jpg)] bg-cover';
-    }  
-    
-    // "01d": sunny,
-    //   "01n": moon,
-    //   "02d": partlyCloudyDay,
-    //   "02n": partlyCloudyNight,
-    //   "03d": partlyCloudyDay,
-    //   "03n": partlyCloudyNight,
-    //   "04d": cloudy,
-    //   "04n": cloudy,
-    //   "09d": rain,
-    //   "09n": rain,
-    //   "10d": rain,
-    //   "10n": rain,
-    //   "11d": storm,
-    //   "11n": storm,
-    //   "13d": snow,
-    //   "13n": snow
+    }
   }
 
   return (
