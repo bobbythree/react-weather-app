@@ -4,11 +4,7 @@
   
 ## Features  
 ### - Search for current weather by location (i.e. city name)  
-### - Backgrounds change based on time of day and weather conditions  
+### - Backgrounds change dynamically to reflect current weather conditions.  
   
   
-## Run:  
-### Clone this repo to your local machine.  
-### open a terminal in root directory of the project.  
-### ```npm install```  
-### ```npm run dev```
+### Click [here](https://react-weather-app-rouge-iota.vercel.app/) to view live site.
