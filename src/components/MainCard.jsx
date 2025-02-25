@@ -10,13 +10,13 @@ export default function MainCard() {
 
 
   //api call
-  const getWeatherByCity = async (city) => {
+  const getWeatherByCity = async (city, state) => {
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&appid=${import.meta.env.VITE_API_KEY}`
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},${state},US&units=imperial&appid=${import.meta.env.VITE_API_KEY}`
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
-      const icon = icons[data.weather[0].icon] || sunny;
+      const icon = icons[data.weather[0].icon] || icons['sunny'];
 
       //get the time of day
       const weatherCode = data.weather[0].icon;
@@ -33,6 +33,7 @@ export default function MainCard() {
       
     } catch (error) {
       setWeatherData(false);
+      console.error('Could not fetch weather data')
     }    
   }
   useEffect(() => {
@@ -42,7 +43,10 @@ export default function MainCard() {
   //form submit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
-    getWeatherByCity(inputRef.current.value)
+    const inputTokens = inputRef.current.value.split(' ');
+    const city = inputTokens[0].replace(/[^a-zA-Z0-9\s]/g, '');
+    const state = inputTokens[1].replace(/[^a-zA-Z0-9\s]/g, '');
+    getWeatherByCity(city, state)
     inputRef.current.value = '';
   }
 
