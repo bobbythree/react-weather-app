@@ -44,10 +44,16 @@ export default function MainCard() {
   function handleSubmit(e) {
     e.preventDefault();
     const inputTokens = inputRef.current.value.split(' ');
-    const city = inputTokens[0].replace(/[^a-zA-Z0-9\s]/g, '');
-    const state = inputTokens[1].replace(/[^a-zA-Z0-9\s]/g, '');
-    getWeatherByCity(city, state)
-    inputRef.current.value = '';
+    if (inputTokens.length > 1) {
+      const city = inputTokens[0].replace(/[^a-zA-Z0-9\s]/g, '');
+      const state = inputTokens[1].replace(/[^a-zA-Z0-9\s]/g, '');
+      getWeatherByCity(city, state)
+      inputRef.current.value = '';
+    }else if (inputTokens.length === 1) {
+      const city = inputTokens[0].replace(/[^a-zA-Z0-9\s]/g, '');
+      getWeatherByCity(city);
+      inputRef.current.value = '';
+    }
   }
 
   //background image
