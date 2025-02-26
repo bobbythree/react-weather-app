@@ -43,17 +43,10 @@ export default function MainCard() {
   //form submit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
-    const inputTokens = inputRef.current.value.split(' ');
-    if (inputTokens.length > 1) {
-      const city = inputTokens[0].replace(/[^a-zA-Z0-9\s]/g, '');
-      const state = inputTokens[1].replace(/[^a-zA-Z0-9\s]/g, '');
-      getWeatherByCity(city, state)
-      inputRef.current.value = '';
-    }else if (inputTokens.length === 1) {
-      const city = inputTokens[0].replace(/[^a-zA-Z0-9\s]/g, '');
-      getWeatherByCity(city);
-      inputRef.current.value = '';
-    }
+    const substrings = getSubstringsBeforeAndAfterComma(inputRef.current.value);
+    const city = substrings.before;
+    const stateOrCountry = substrings.after;
+    getWeatherByCity(city, stateOrCountry);
   }
 
   //background image
@@ -130,3 +123,22 @@ export default function MainCard() {
     
   )
 }
+
+//utils
+function getSubstringsBeforeAndAfterComma(str) {
+  if (typeof str !== 'string') {
+    return { before: null, after: null }; // Handle non-string input
+  }
+
+  const commaIndex = str.indexOf(',');
+
+  if (commaIndex === -1) {
+    return { before: str, after: null }; // No comma found
+  }
+
+  const beforeComma = str.substring(0, commaIndex).trim(); // Trim whitespace
+  const afterComma = str.substring(commaIndex + 1).trim(); // Trim whitespace
+
+  return { before: beforeComma, after: afterComma };
+}
+
