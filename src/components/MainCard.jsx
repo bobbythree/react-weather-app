@@ -58,7 +58,7 @@ export default function MainCard() {
   return (
     <>
       {weatherData ? 
-        <div className={`${getBackgroundImg(weatherData.weatherCode)} flex flex-col justify-center gap-1 h-screen`}>
+        <div className={`${getBackgroundImg(weatherData.weatherCode)} flex flex-col justify-center gap-1 h-dvh`}>
           <div className={`${isDaytime ? 'bg-sky-600' : 'bg-black'} place-self-center flex flex-col rounded-md text-center px-5 min-w-3xs`}>
             <h1 className="pt-5 text-5xl">{weatherData.city}</h1>
             <img className=" pt-3 place-self-center" src={weatherData.icon} alt="logo" style={{width: '50px'}} />
@@ -76,7 +76,7 @@ export default function MainCard() {
           </div>
         </div> :
       
-        <div className="bg-sky-700 flex flex-col justify-center gap-1 h-screen">
+        <div className="bg-sky-700 flex flex-col justify-center gap-1 h-dvh">
 
           <div className="place-self-center">
             <label className="input bg-sky-600">
