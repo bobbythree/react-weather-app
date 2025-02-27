@@ -8,7 +8,6 @@ export default function MainCard() {
   const [isDaytime, setIsDaytime] = useState();
   const inputRef = useRef();
 
-
   //api call
   const getWeatherByCity = async (city, state) => {
     try {
@@ -16,7 +15,7 @@ export default function MainCard() {
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
-      const icon = icons[data.weather[0].icon] || icons['sunny'];
+      const icon = icons[data.weather[0].icon] || icons['04d'];
 
       //get the time of day
       const weatherCode = data.weather[0].icon;
@@ -33,7 +32,7 @@ export default function MainCard() {
       
     } catch (error) {
       setWeatherData(false);
-      console.error('Could not fetch weather data')
+      console.error(error.name, '- Could not fetch weather data.')
     }    
   }
   useEffect(() => {
@@ -43,46 +42,18 @@ export default function MainCard() {
   //form submit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
-    const substrings = getSubstringsBeforeAndAfterComma(inputRef.current.value);
-    const city = substrings.before;
-    const stateOrCountry = substrings.after;
-    getWeatherByCity(city, stateOrCountry);
-  }
-
-  //background image
-  const getBackgroundImg = (weatherCode) => {
-    if (!weatherCode) return ''; //if no code available
-
-    switch (weatherCode) {
-      case '01d': //clear day
-        return 'bg-[url(./assets/sunny_bg.jpg)] bg-cover';
-      case '01n': //clear night
-        return 'bg-[url(./assets/stars_bg.jpg)] bg-cover';
-      case '02d': //partly cloudy day
-      case '03d': 
-        return 'bg-[url(./assets/partly_day_bg.jpg)] bg-cover';
-      case '02n': //partly cloudy night
-      case '03n': 
-        return 'bg-[url(./assets/partly_night_bg.jpg)] bg-cover';
-      case '04d': //overcast day
-        return 'bg-[url(./assets/overcast_day_bg.jpg)] bg-cover';
-      case '04n': //overcast night
-        return 'bg-[url(./assets/overcast_night_bg.jpg)] bg-cover';
-      case '09d': //rain day
-      case '10d':
-        return 'bg-[url(./assets/rain_day_bg.jpg)] bg-cover';
-      case '09n': //rain night
-      case '10n':
-        return 'bg-[url(./assets/rain_night_bg.jpg)] bg-cover';
-      case '11d': // thunderstorm
-      case '11n':
-        return 'bg-[url(./assets/storm_bg.jpg)] bg-cover';
-      case '13d': // snow day
-        return 'bg-[url(./assets/snow_day_bg.jpg)] bg-cover';
-      case '13n': // snow day
-        return 'bg-[url(./assets/snow_night_bg.jpg)] bg-cover';
+    if(inputRef.current.value.includes(',')) {
+      const substrings = getSubstringsBeforeAndAfterComma(inputRef.current.value);
+      const city = substrings.before;
+      const stateOrCountry = substrings.after;
+      getWeatherByCity(city, stateOrCountry);
+      inputRef.current.value = '';
+    } else {
+      getWeatherByCity(inputRef.current.value);
+      inputRef.current.value = '';
     }
   }
+
 
   return (
     <>
@@ -125,6 +96,41 @@ export default function MainCard() {
 }
 
 //utils
+
+const getBackgroundImg = (weatherCode) => {
+  if (!weatherCode) return ''; //if no code available
+
+  switch (weatherCode) {
+    case '01d': //clear day
+      return 'bg-[url(./assets/sunny_bg.jpg)] bg-cover';
+    case '01n': //clear night
+      return 'bg-[url(./assets/stars_bg.jpg)] bg-cover';
+    case '02d': //partly cloudy day
+    case '03d': 
+      return 'bg-[url(./assets/partly_day_bg.jpg)] bg-cover';
+    case '02n': //partly cloudy night
+    case '03n': 
+      return 'bg-[url(./assets/partly_night_bg.jpg)] bg-cover';
+    case '04d': //overcast day
+      return 'bg-[url(./assets/overcast_day_bg.jpg)] bg-cover';
+    case '04n': //overcast night
+      return 'bg-[url(./assets/overcast_night_bg.jpg)] bg-cover';
+    case '09d': //rain day
+    case '10d':
+      return 'bg-[url(./assets/rain_day_bg.jpg)] bg-cover';
+    case '09n': //rain night
+    case '10n':
+      return 'bg-[url(./assets/rain_night_bg.jpg)] bg-cover';
+    case '11d': // thunderstorm
+    case '11n':
+      return 'bg-[url(./assets/storm_bg.jpg)] bg-cover';
+    case '13d': // snow day
+      return 'bg-[url(./assets/snow_day_bg.jpg)] bg-cover';
+    case '13n': // snow day
+      return 'bg-[url(./assets/snow_night_bg.jpg)] bg-cover';
+  }
+}
+
 function getSubstringsBeforeAndAfterComma(str) {
   if (typeof str !== 'string') {
     return { before: null, after: null }; // Handle non-string input
