@@ -72,7 +72,7 @@ export default function MainCard() {
       getWeatherByZip(inputRef.current.value);
       inputRef.current.value = '';
     }
-    if(inputRef.current.value.includes(',')) {
+    else if(inputRef.current.value.includes(',')) {
       const substrings = getSubstringsBeforeAndAfterComma(inputRef.current.value);
       const city = substrings.before;
       const stateOrCountry = substrings.after;
