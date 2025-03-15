@@ -41,7 +41,7 @@ export default function MainCard() {
 
   const getWeatherByZip = async (zip) => {
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${import.meta.env.VITE_API_KEY}`
+      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&units=imperial&appid=${import.meta.env.VITE_API_KEY}`
       const response = await fetch(url);
       const data = await response.json();
       console.log(data);
