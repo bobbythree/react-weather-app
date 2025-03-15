@@ -39,10 +39,40 @@ export default function MainCard() {
     getWeatherByCity('Chicago')
   }, []);
 
+  const getWeatherByZip = async (zip) => {
+    try {
+      const url = `https://api.openweathermap.org/data/2.5/weather?zip=${zip},us&appid=${import.meta.env.VITE_API_KEY}`
+      const response = await fetch(url);
+      const data = await response.json();
+      console.log(data);
+      const icon = icons[data.weather[0].icon] || icons['04d'];
+
+      //get the time of day
+      const weatherCode = data.weather[0].icon;
+      const lastChar = weatherCode[weatherCode.length - 1];
+      setIsDaytime(lastChar === 'd' ? true : false);
+
+      setWeatherData({
+        city: data.name,
+        temp: Math.floor(data.main.temp),
+        conditions: data.weather[0].description,
+        icon: icon,
+        weatherCode: weatherCode
+      });
+    } catch (error) {
+      setWeatherData(false);
+      console.error(error.name, '- could not fetch weather by zip code.')
+    }
+  }
+
   //form submit func - call api and pass user input as location - clear form
   function handleSubmit(e) {
     e.preventDefault();
-    if(inputRef.current.value.includes(',')) {
+    if (isAllNums(inputRef.current.value)) {
+      getWeatherByZip(inputRef.current.value);
+      inputRef.current.value = '';
+    }
+    else if(inputRef.current.value.includes(',')) {
       const substrings = getSubstringsBeforeAndAfterComma(inputRef.current.value);
       const city = substrings.before;
       const stateOrCountry = substrings.after;
@@ -148,3 +178,6 @@ function getSubstringsBeforeAndAfterComma(str) {
   return { before: beforeComma, after: afterComma };
 }
 
+function isAllNums(input) {
+  return /^\d+$/.test(input);
+}
