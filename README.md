@@ -3,8 +3,8 @@
   
   
 ## Features  
-### - Search for current weather by location (i.e. city name)  
-### - Backgrounds change dynamically to reflect current weather conditions.  
+### - Search for current weather by City and state (i.e. Chicago, IL), City and Country code (i.e. London, GB) or zipcode (US only).  
+### - Background changes dynamically to reflect current weather conditions.  
   
   
 ### Click [here](https://react-weather-app-rouge-iota.vercel.app/) to view live site.
